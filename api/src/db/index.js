@@ -1,5 +1,6 @@
-const { readdirSync } = require('fs');
+const fs = require('fs');
 const path = require('path');
+const basename = path.basename(__filename);
 const Sequelize = require('sequelize');
 
 const db = {};
@@ -15,7 +16,12 @@ db.Sequelize = Sequelize;
 
 const basePath = path.join(__dirname, '/models');
 
-readdirSync(basePath)
+fs.readdirSync(basePath)
+  .filter(file => {
+    return (
+      file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
+    );
+  })
   .forEach(file => {
     const model = require(path.join(basePath, file));
 
@@ -26,6 +32,8 @@ readdirSync(basePath)
     }
 
     db[model.name] = model;
+
+    console.log(`[SERVER] (${path.join(basePath, file).replace(__dirname + '\\', "db\\")}) (${model.name}) model loaded.`);
   });
 
 Object.keys(db).forEach(modelName => {

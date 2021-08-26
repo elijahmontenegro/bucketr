@@ -1,0 +1,18 @@
+{
+  "name": "bucketr",
+  "private": true,
+  "version": "0.0.1",
+  "description": "bucketr",
+  "repository": "https://github.com/elijahmontenegro/bucketr",
+  "author": "Elijah Montenegro <ejmonte@outlook.com>",
+  "license": "MIT",
+  "scripts": {
+    "api:lint": "cd api && yarn lint",
+    "client:lint": "cd client && yarn lint",
+    "lint": "yarn api:lint && yarn client:lint"
+  },
+  "workspaces": [
+    "api",
+    "client"
+  ]
+}

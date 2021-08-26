@@ -1,7 +1,10 @@
-const login = (req, res) => {
-  res.send('/ login called successfully...');
-};
+const passport = require('passport');
+
+// const base = passport.authenticate('atlassian', { failureRedirect: '/error' });
+
+// const redirect = passport.authenticate('atlassian');
+
 
 module.exports = (express) => {
-  express.get('/auth/callback', login);
+  express.get('/auth/atlassian/connect', passport.authenticate('atlassian'));
 }

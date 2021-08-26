@@ -3,11 +3,10 @@ const glob = require('glob');
 module.exports = async (server) => {
   glob('/**/routes/*.js', { root: __dirname }, (err, files) => {
     files.forEach(file => {
-      const route = require(file)(server);
+      const routeFn = require(file);
+      console.log(`[SERVER] (${file.replace(__dirname + '\\', "")}) routes loaded.`);
 
-      console.log(`[SERVER] routes loaded (${file.replace(__dirname + '\\', "")})`);
-
-      return route;
+      routeFn(server);
     });
   });
 };
