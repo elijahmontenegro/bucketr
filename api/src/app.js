@@ -1,13 +1,9 @@
 const graphQLServer = require('./gql');
-const loadRoutes = require('./routes');
-const passport = require('./idm');
 const express = graphQLServer.express;
 const { sequelize } = require('./db');
 
-express.use(passport.initialize());
-express.use(passport.session());
-
-loadRoutes(express);
+require('./idm')(express);
+require('./routes')(express);
 
 module.exports = async () => {
   try {
@@ -17,7 +13,15 @@ module.exports = async () => {
     console.error('[DB] Unable to connect to the database:', error);
   }
 
-  const app = await graphQLServer.start({ port: process.env.PORT, cors: { origin: '*' } });
+  const app = await graphQLServer.start({
+    port: process.env.PORT,
+    cors: {
+      credentials: true,
+      origin: 'http://localhost:3000',
+      methods: ['GET','POST','DELETE','UPDATE','PUT','PATCH']
+    }
+  });
+
   console.log('[SERVER] Running on', app.address());
 
   return app;

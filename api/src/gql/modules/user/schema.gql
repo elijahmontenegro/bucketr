@@ -1,5 +1,10 @@
 type User {
   id: ID!
+  displayName: String!
+  email: String!
+  password: String!
+  active: Boolean
+  validated: Boolean
 }
 
 type Query {
@@ -7,3 +12,20 @@ type Query {
   user(id: ID!): User!
   me: User!
 }
+
+input UserCreateInput {
+  displayName: String!
+  email: String!
+  password: String!
+}
+
+type AuthPayload {
+  user: User!
+}
+
+type Mutation {
+  signup(data: UserCreateInput!): User!
+  login(email: String!, password: String!): AuthPayload!
+  logout: Boolean
+}
+

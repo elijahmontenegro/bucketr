@@ -1,18 +1,15 @@
-const fs = require('fs');
+const glob = require('glob');
 const path = require('path');
-const basename = path.basename(__filename);
 
-let array = [];
-
-fs.readdirSync(__dirname)
+module.exports = glob.sync(__dirname + '{/*.js,/*/index.js}')
   .filter(file => {
     return (
-      file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
+      file.indexOf('.') != 0 && file != __filename.replace(/\\/g, "/") && file.slice(-3) == '.js'
     );
   })
-  .forEach(file => {
-    const middleware = require(path.join(__dirname, file));
-    array.push(middleware);
-  });
+  .map(file => {
+    const middleware = require(file);
 
-module.exports = array;
+    console.log(`[GRAPHQL] (${path.join('./gql/middlewares', path.relative(__dirname, file))}) graphql middleware loaded.`);
+    return middleware;
+  });
