@@ -1,24 +1,25 @@
 import React from 'react';
 import { Div } from 'atomize';
 
-export const Card = (props) => {
+const Card = (props) => {
   const initialProps = {
     d: "flex",
     flexDir: "column",
     // border: "1px solid",
-    // borderColor: "black700",
-    border: { t: "4px solid" },
-    borderColor: "black700",
+    // borderColor: "darkalpha1",
+    border: { t: "4px solid", x:"0px solid", b: "0px solid" },
+    borderColor: "black500",
     w: { xs: "100%", md: "21rem", lg: "27rem" },
     maxW: "100%",
-    m: { xs: "1rem", md: "0", x: "1rem", b: "1rem" },
+    m: { xs: "1rem", md: "0", x: "0.5rem", b: "1rem" },
     right: "0",
     top: "0",
-    rounded: "md",
+    rounded: "4px",
     h: { lg: "28rem" },
-    bg: "black800",
-    shadow: "1",
-    p: "2rem"
+    bg: "black900",
+    shadow: "2",
+    p: "2rem",
+    zIndex: 0
   };
 
   const flatProps = {
@@ -35,3 +36,5 @@ export const Card = (props) => {
     />
   );
 };
+
+export default Card;

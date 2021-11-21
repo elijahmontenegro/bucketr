@@ -7,6 +7,7 @@ import { Button, Container, Row, Col, Div, Text, Input, Icon } from 'atomize';
 import { AtlassianIcon } from '@atlaskit/logo';
 import { Field, Card } from '../../components/common';
 import { useForm } from 'react-hook-form';
+import { Content } from '../../components/persistent';
 
 const Forgot = (props) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,24 +17,25 @@ const Forgot = (props) => {
   };
 
   return (
-    <>
+    <Content>
       <Div
         m={{ x: "1rem" }}
-        p={{ y: "3rem" }}
         d="flex"
         align="center"
-        justify="center"
+        justify="start"
         flexDir="column"
+        h="100%"
       >
         <Card 
           h="auto"
+          rounded="xl" border="none"
           // borderColor="warning600"
         >
           <form onSubmit={handleSubmit(onSubmit)}>
             <Div flexGrow="1">
               <Text
                 textAlign="center"
-                textSize="title"
+                textSize="heading"
                 m={{ t: "0.5rem", b: "0.5rem" }}
                 textWeight="500"
                 // fontFamily="secondary"
@@ -90,7 +92,7 @@ const Forgot = (props) => {
           </form>
         </Card>
         <Card h="auto" $flattened={true}>
-          <Div flexGrow="1" border={{ b: "2px solid" }} rounded="circle" borderColor="black700" m={{ x: "0rem", b: "3rem" }} d={{ xs: "none", md: "block"}}/>
+          {/* <Div flexGrow="1" border={{ b: "2px solid" }} rounded="circle" borderColor="black700" m={{ x: "0rem", b: "3rem" }} d={{ xs: "none", md: "block"}}/> */}
           <Text textAlign="center" textSize="caption">
             <Link to="/account/login">
               Return to Log In
@@ -98,7 +100,7 @@ const Forgot = (props) => {
           </Text>
         </Card>
       </Div>
-    </>
+    </Content>
   )
 };
 

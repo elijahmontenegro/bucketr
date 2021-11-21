@@ -1,0 +1,33 @@
+type Workspace {
+  id: ID!
+  name: String!
+  shortName: String!
+  boards: [Board]
+}
+
+type Query {
+  workspaces: [Workspace!]!
+  boards: [Board]
+}
+
+input WorkspaceCreateInput {
+  name: String!
+  shortName: String!
+}
+
+input WorkspaceUpdateInput {
+  id: ID!
+  name: String
+  shortName: String
+}
+
+type Mutation {
+  createWorkspace(data: WorkspaceCreateInput!): Workspace!
+  updateWorkspace(data: WorkspaceUpdateInput!): Boolean
+  deleteWorkspace(id: ID!): Boolean
+}
+type Board {
+  id: ID!
+  name: String
+  createdAt: Date
+}

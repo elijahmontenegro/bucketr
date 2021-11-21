@@ -1,5 +1,5 @@
-import { Home, Login, Signup, Forgot, Profile, Unauthorized, Unknown } from '../components';
-import { withAuth } from '../../utils';
+import { Home, Login, Signup, Forgot, Profile, Unauthorized, Unknown, YourWork, Organization, Board } from '../components';
+import { withAuth } from '../../helpers';
 
 export const createRoutes = () => ([
   {
@@ -7,6 +7,12 @@ export const createRoutes = () => ([
     path: '/',
     exact: true,
     component: withAuth({ redirectTo: "/account/login" })(Home),
+  },  
+  {
+    name: 'Board',
+    path: '/workspace/:id',
+    exact: true,
+    component: withAuth({ redirectTo: "/account/login" })(Board),
   },
   {
     name: 'Login',
@@ -21,6 +27,12 @@ export const createRoutes = () => ([
     component: Signup,
   },
   {
+    name: 'Organization',
+    path: '/organization/settings',
+    exact: true,
+    component: withAuth({ redirectTo: "/account/login" })(Organization),
+  },
+  {
     name: 'Forgot',
     path: '/account/forgot-password',
     exact: true,
@@ -30,13 +42,19 @@ export const createRoutes = () => ([
     name: 'Profile',
     path: '/account/profile',
     exact: true,
-    component: withAuth()(Profile),
+    component: withAuth({ redirectTo: "/account/login" })(Profile),
   },
   {
     name: 'Unauthorized',
     path: '/Unauthorized',
     exact: true,
     component: Unauthorized,
+  },
+  {
+    name: 'YourWork',
+    path: '/your-work',
+    exact: true,
+    component: withAuth({ redirectTo: "/account/login" })(YourWork),
   },
   {
     name: 'Default',

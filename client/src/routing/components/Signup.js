@@ -8,7 +8,8 @@ import { AtlassianIcon } from '@atlaskit/logo';
 import { useForm } from 'react-hook-form';
 import { Field, Card } from '../../components/common';
 import { useMutation } from '@apollo/client';
-import { SIGNUP_MUTATION } from '../../services/graphql/mutations';
+import { SIGNUP_MUTATION } from '../../graphql/mutations';
+import { Content } from '../../components/persistent';
 
 export const Signup = (props) => {
   const [error, setError] = useState();
@@ -37,21 +38,21 @@ export const Signup = (props) => {
   };
 
   return (
-    <>
+    <Content>
       <Div
         m={{ x: "1rem" }}
-        p={{ y: "3rem" }}
         d="flex"
         align="center"
-        justify="center"
+        justify="start"
         flexDir="column"
+        h="100%"
       >
-        <Card h="auto">
+        <Card h="auto" rounded="xl" border="none">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Div flexGrow="1">
               <Text
                 textAlign="center"
-                textSize="title"
+                textSize="heading"
                 m={{ t: "0.5rem", b: "0.5rem" }}
                 textWeight="500"
               >
@@ -167,7 +168,11 @@ export const Signup = (props) => {
           </form>
         </Card>
         <Card h="auto" $flattened={true}>
-          <Div flexGrow="1" border={{ b: "2px solid" }} rounded="circle" borderColor="black700" m={{ x: "0rem", b: "3rem" }} d={{ xs: "none", md: "block"}}/>
+          <Div d="flex" flexDir="row" align="center" justify="center" m={{ b: "3rem", x: "2rem" }} >
+            <Div flexGrow="1" border={{ b: "2px solid" }} rounded="" borderColor="black100" />
+            <Text textSize="" textAlign="center"textWeight="500" m={{ x: "0.5rem" }} textColor="light">Or continue another way</Text>
+            <Div flexGrow="1" border={{ b: "2px solid" }} rounded="" borderColor="black100" />
+          </Div>
           <Button
             className="wiggle"
             rounded="circle"
@@ -176,17 +181,18 @@ export const Signup = (props) => {
             hoverBg="info300"
             textColor="dark"
             shadow="2"
+            p={{ r: "6.8125rem" }}
             prefix={
-              <Div m={{ l: "-3.5rem", r: "2rem" }} align="center" d="flex" d={{ xs: "none", sm: "none", md: "none", lg: "flex" }}>
+              <Div m={{ r: "auto", l: "0.5rem" }} align="center" justify="start" d="flex" d={{ xs: "none", sm: "none", md: "none", lg: "flex" }}>
                 <AtlassianIcon />
               </Div>
             }
           >
-            Sign up with your Atlassian account
+            Sign up with Atlassian
           </Button>
         </Card>
       </Div>
-    </>
+    </Content>
   )
 };
 

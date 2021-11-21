@@ -5,11 +5,13 @@ module.exports = shield(
   {
     Query: {
       me: rules.isAuthenticated,
+      boards: rules.isAuthenticated
     },
     Mutation: {
       signup: not(rules.isAuthenticated),
       login: not(rules.isAuthenticated),
-      logout: rules.isAuthenticated
+      logout: rules.isAuthenticated,
+      createWorkspace: rules.isAuthenticated
     },
   },
   {

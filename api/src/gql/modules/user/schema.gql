@@ -4,6 +4,7 @@ type User {
   email: String!
   password: String!
   active: Boolean
+  role: RolesEnum
   validated: Boolean
 }
 
@@ -19,6 +20,13 @@ input UserCreateInput {
   password: String!
 }
 
+input UserUpdateInput {
+  id: ID!
+  displayName: String
+  email: String
+  password: String
+}
+
 type AuthPayload {
   user: User!
 }
@@ -27,5 +35,7 @@ type Mutation {
   signup(data: UserCreateInput!): User!
   login(email: String!, password: String!): AuthPayload!
   logout: Boolean
+  createUser(data: UserCreateInput!): User!
+  updateUser(data: UserUpdateInput!): Boolean
+  deleteUser(id: ID!): Boolean
 }
-

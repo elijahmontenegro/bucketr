@@ -1,17 +1,12 @@
 {
-  "short_name": "Bucket Brawler",
-  "name": "Bucket Brawler",
+  "short_name": "Beacon",
+  "name": "Beacon",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "icon.svg",
       "sizes": "256x256 128x128 64x64 48x48 32x32 16x16",
       "type": "image/x-icon",
       "purpose": "any maskable"
-    },
-    {
-      "src": "icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
     }
   ],
   "start_url": ".",

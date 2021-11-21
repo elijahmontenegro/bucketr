@@ -4,6 +4,16 @@
     "@babel/preset-react"
   ],
   "plugins": [
-    "@babel/plugin-transform-runtime"
+    "@babel/plugin-transform-runtime",
+    ["babel-plugin-module-resolver", {
+      "alias": {
+        "#graphql": "./src/graphql",
+        "#components": "./src/components",
+        "#helpers": "./src/helpers",
+        "#constants": "./src/constants",
+        "#apollo": "./src/Client",
+        "#store": "./src/Store"
+      }
+    }]
   ]
 }

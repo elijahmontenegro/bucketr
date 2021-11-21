@@ -5,9 +5,9 @@ import { Provider as StyletronProvider, DebugEngine } from "styletron-react";
 import { Client as StyletronEngine } from "styletron-engine-atomic";
 import { StyleReset, ThemeProvider } from 'atomize';
 import { appTheme } from './constants';
-import { apolloClient } from './services';
+import { default as apolloClient } from './Client';
 
-const engine = new StyletronEngine();
+const styletronEngine = new StyletronEngine();
 
 // This breaks everything.
 // const debug = process.env.NODE_ENV === "production" ? void 0 : new DebugEngine();
@@ -15,7 +15,7 @@ const engine = new StyletronEngine();
 const App = () => {
 
   return (
-    <StyletronProvider value={engine} /* debug={debug} debugAfterHydration */ >
+    <StyletronProvider value={styletronEngine} /* debug={debug} debugAfterHydration */ >
       <ApolloProvider client={apolloClient}>
         <ThemeProvider theme={appTheme}>
           <StyleReset />

@@ -1,0 +1,11 @@
+scalar Date
+
+type Board {
+  id: ID!
+  name: String
+  createdAt: Date
+}
+
+# type Subscription {
+#   boards:
+# }

@@ -47,11 +47,12 @@ const HeaderLink = (props) => {
       textAlign="center"
       flexDir="column"
       m={props.m}
+      transition={"all 0.1s ease-in-out"}
     >
       <Div 
-        border={{ b: "4px solid" }} 
+        border={{ b: "3px solid" }} 
         borderColor="transparent" 
-        // m={{ t: "-4px" }}
+        m={{ t: "-12px" }}
       />
 
       <div 
@@ -61,7 +62,8 @@ const HeaderLink = (props) => {
           flexDirection: "column",
           height: "100%",
           width: "auto",
-          color: 'white',
+          color: 'red',
+          fill: 'red',
           fontWeight: '500',
           alignContent: "center",
           alignItems: "center",
@@ -72,17 +74,23 @@ const HeaderLink = (props) => {
       >
         <Link to={props.to}>
           <Button
-            transition={(typeOf == "object" && active) ? "all 180ms cubic-bezier(0.79, 0.33, 0.14, 0.53)" : "none"}
+            d="flex"
+            transition={"all 0.1s ease-in-out"}
             align="center"
             justify="center"
             textAlign="center"
-            h={typeOf == "object" ? "1.75rem" : "1.75rem"}
-            w={typeOf == "object" ? "1.75rem" : "auto"}
-            p={typeOf == "object" ? { x: "auto" } : { x: "1rem" }}
-            hoverBg={(typeOf !== "object" || !active) && "black600"}
-            rounded="circle"
-            bg={typeOf == "object" && active ? "black500" : "transparent"}
+            h={typeOf == "object" ? "2rem" : "2.25rem"}
+            w={typeOf == "object" ? "2rem" : "auto"}
+            p={typeOf == "object" ? { x: "auto" } : { x: "0.75rem" }}
+            rounded={typeOf == "object" ? "circle" : "md"}
+            bg={typeOf == "object" && active ? "black400" : "transparent"}
             textSize="body"
+            hoverBg={typeOf !== "object" ? "black400" : "black400" || undefined}
+            textColor={typeOf !== "object" && !active ? "#ccc" : "#ddd" || "black600"}
+            hoverTextColor="#ddd"
+            textWeight="600"
+            prefix={props.prefix}
+            suffix={props.suffix}
           >
             {props.children}
           </Button>
@@ -90,12 +98,12 @@ const HeaderLink = (props) => {
       </div>
 
       <Div
-        transition="all 180ms cubic-bezier(0.79, 0.33, 0.14, 0.53)"
-        w="calc(100% - 2rem)" 
-        border={{ b: "4px solid" }} 
-        rounded="circle" 
-        borderColor={typeOf == "string" && active ? "black500" : "transparent"} 
-        // m={{ b: "-4px" }} 
+        w="calc(100% + -1.5rem)" 
+        // w="50%" 
+        border={{ b: "3px solid" }} 
+        // rounded="circle" 
+        borderColor={typeOf == "string" && active ? "rgba(75, 167, 254, 0.75)" : "transparent"}
+        m={{ b: "-12px" }} 
       />
     </Div>
   );

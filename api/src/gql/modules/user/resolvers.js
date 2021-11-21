@@ -40,11 +40,10 @@ module.exports = {
 
       return user;
     },
-
     async login(root, { email, password }, ctx) {
       const { user, error, info } = await ctx.authenticate('graphql-local', { email, password });
 
-      // if (!user) {
+      // if (!user) {npm
       //   throw new Error('Sorry, this user does not exist.');
       // }
 
@@ -62,15 +61,56 @@ module.exports = {
         user
       };
     },
-
     async logout(root, args, { session, res, ...ctx}) {
       res.clearCookie('sid');
       return ctx.logout();
-    }
-  },
-  AuthPayload: {
-    user({ user }) {
-      return db.User.findOne({ where: { id: user.id } });
+    },
+    async createUser(root, { data }, ctx) {
+      const existingEmail = await db.User.count({
+        where: {
+          email: {
+            [Op.iLike]: data.email
+          }
+        }
+      });
+
+      if (existingEmail) {
+        throw new Error('Sorry, this email is already taken.');
+      }
+
+      const user = await db.User.create(data);
+
+      return user;
+    },
+    async updateUser(root, { data }, ctx) {
+      const user = await db.User.update(
+        {
+          displayName: data.displayName,
+          email: data.email,
+        },
+        {
+          where: {
+            id: data.id
+          }
+        }
+      );
+
+      if (!user) {
+        throw new Error('User not found.');
+      }
+
+      return true;
+    },
+    async deleteUser(root, { id }, ctx) {
+      const user = await db.User.findByPk(id);
+
+      if (!user) {
+        throw new Error('User not found.');
+      }
+
+      await user.destroy();
+
+      return true;
     },
   },
 };

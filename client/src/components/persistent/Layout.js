@@ -5,10 +5,16 @@ export const Layout = (props) => {
 
   return (
     <Div
+      d="flex"
       tag="main"
       m={{ l: "auto", r: "auto" }}
       w="100%"
-      maxW="90rem"
+      h="100%"
+      flexDir="column"
+      // justify="center"
+      // align="center"
+      // m={{ x: "4rem" }}
+
     >
       {props.children}
     </Div>

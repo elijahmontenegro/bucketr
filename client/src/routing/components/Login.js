@@ -7,9 +7,11 @@ import { Button, Container, Row, Col, Div, Text, Input, Icon } from 'atomize';
 import { AtlassianIcon } from '@atlaskit/logo';
 import { Field, Card } from '../../components/common';
 import { useForm } from 'react-hook-form';
-import { LOGIN_MUTATION } from '../../services/graphql/mutations';
+import { LOGIN_MUTATION } from '../../graphql/mutations';
 import { useMutation } from '@apollo/client';
-import { isLoggedInVar } from '../../services/apollo/cache';
+import { Content } from '../../components/persistent';
+import { IS_LOGGED_IN } from '../../graphql/queries';
+import Store from '#store';
 
 const Login = (props) => {
   const [submitError, setSubmitError] = useState();
@@ -23,7 +25,7 @@ const Login = (props) => {
       }
     },
     onCompleted: (data) => {
-      isLoggedInVar(true);
+      Store.isLoggedIn(true);
       props.history.push('/');
     }
   });
@@ -38,21 +40,22 @@ const Login = (props) => {
   };
 
   return (
-    <>
+    <Content>
       <Div
         m={{ x: "1rem" }}
-        p={{ y: "3rem" }}
         d="flex"
         align="center"
-        justify="center"
+        justify="start"
         flexDir="column"
+        h="100%"
+        bg=""
       >
-        <Card h="auto">
+        <Card h="auto" rounded="xl" border="none">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Div flexGrow="1">
               <Text
                 textAlign="center"
-                textSize="title"
+                textSize="heading"
                 m={{ t: "0.5rem", b: "0.5rem" }}
                 textWeight="500"
                 // fontFamily="secondary"
@@ -148,7 +151,7 @@ const Login = (props) => {
           </form>
         </Card>
         <Card h="auto" $flattened={true}>
-          <Div flexGrow="1" border={{ b: "2px solid" }} rounded="circle" borderColor="black700" m={{ x: "0rem", b: "3rem" }} d={{ xs: "none", md: "block"}}/>
+          {/* <Div flexGrow="1" border={{ b: "2px solid" }} rounded="circle" borderColor="black700" m={{ x: "0rem", b: "3rem" }} d={{ xs: "none", md: "block"}}/> */}
           <Text textAlign="center" textSize="caption">
             <Link to="/account/forgot-password">
               Forgot Password?
@@ -156,7 +159,7 @@ const Login = (props) => {
           </Text>
         </Card>
       </Div>
-    </>
+    </Content>
   )
 };
 

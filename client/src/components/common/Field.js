@@ -10,7 +10,7 @@ export const Field = forwardRef((props, ref) => {
     >
       <Input
         ref={ref}
-        p={{ l: "1rem", r: "2.5rem" }}
+        p={{ l: "1.5rem", r: "2.5rem" }}
         rounded="circle"
         focusBorderColor="info800"
         border="0px solid"

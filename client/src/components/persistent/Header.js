@@ -1,35 +1,62 @@
-import React from "react"
-import { Div, Avatar, Image, Text, Container, Button, Anchor, scrollTo, Icon } from "atomize"
+import React, { useEffect } from "react"
+import { Div, Avatar, Image, Text, Container, Button, Anchor, scrollTo, Icon, Row, Col} from "atomize"
 import logo from "url:../../../assets/images/logo_white3.svg"
 import { Link } from 'react-resource-router';
-import { IS_LOGGED_IN } from '../../services/graphql/queries';
+import { GET_CURRENT_WORKSPACE, GET_WORKSPACES, IS_LOGGED_IN, ME_QUERY } from '../../graphql/queries';
 import { graphql } from "@apollo/client/react/hoc";
-import { makeLinkProps } from "../../utils";
+import { compose } from "recompose";
 import { HeaderLink } from ".";
+import { DropdownItem, DropdownMenu } from "../common";
+import Store from '#store';
+import { useQuery } from "@apollo/client";
 
-const Header = ({ data, ...restProps }) => {
+const Header = ({
+  getCurrentUser,
+  getWorkspaces, getWorkspacesResult,
+  ...restProps 
+}) => {
+  const { data: { isLoggedIn } } = useQuery(IS_LOGGED_IN);
+
+  const handleWorkspaceSelection = (textContent) => {
+    localStorage.setItem('currentWorkspace', textContent);
+    Store.currentWorkspace(textContent);
+  };
 
   return (
     <Div 
-      position="fixed"
       id="headerWrapper"
+      tag="nav"
       top="0" left="0" right="0"
+      // w="calc(100% + 0.5rem)"
+      w="auto"
       transition
       zIndex="999"
-      bg=""
+      overflow="visible"
+      // p={{ b: "3.5rem" }}
+      m={{ 
+        l: 0,
+        r: { xl: "0rem", lg: "0", md: "0", sm: "0", xs: "0" }
+      }}
+      // bg="black800"
+      // shadow="1"
+      // bg="green"
+      // p={{ t: "4px" }}
     >
       <Div 
-        h="67px"
+        h="3.25rem"
         w="100%"
-        maxW="90rem"
+        // maxW="71rem"
         m={{ x: "auto"}}
-        p={{ x: "3.5rem" }}
+        p={{ x: "1rem", r: "0.5rem" }}
         zIndex="1"
-        bg="black800"
-        // border={{ b: "4px solid" }}
-        borderColor="black700"
-        rounded={{ b: "circle" }}
-        shadow="2"
+        rounded={{ r: "circle" }}
+        // border={{ t: "1px solid",  r: "1px solid", b: "1px solid" }}
+        bg={isLoggedIn ? "black850" : "transparent"}
+        borderColor={isLoggedIn ? "black900" : "transparent"}
+        shadow={isLoggedIn && "4"}
+        // bg="transparent"
+        // borderColor="transparent"
+        // shadow="0"
       >
         <Div
           d="flex"
@@ -43,13 +70,13 @@ const Header = ({ data, ...restProps }) => {
           <Div
             d="flex"
             h="100%"
-            w="40%"
+            w="100%"
             align="center"
             justify="flex-start"
             p={{ t: "0.75rem", b: "0.75rem" }}
             bg=""
           >
-            {/* {data?.isLoggedIn && (
+            {/* {isLoggedIn && (
               <Button
               transition="none"
                 h="2rem"
@@ -62,7 +89,7 @@ const Header = ({ data, ...restProps }) => {
                 <Icon name="Search" size="16px" color="white" />
               </Button>
             )} */}
-            {data?.isLoggedIn && (
+            {isLoggedIn && (
               <Div
                 d="flex"
                 h="100%"
@@ -73,14 +100,62 @@ const Header = ({ data, ...restProps }) => {
                 align="center"
                 bg=""
               >
-                <HeaderLink to="/" m={{ r: "0.5rem"}}>
-                  Home
+                <Div
+                  m={{ l: "0rem", r: "1rem" }}
+                >
+                  <Link to="/">
+                    <Image
+                      src={logo}
+                      alt="atomize design system logo"
+                      h="36px"
+                      w="auto"
+                      align="center"
+                    />
+                  </Link>
+                </Div>
+                <Div m={{ l: "-0.75rem", r: "0.5rem" }} >
+                  {/* <Text textWeight="600" textSize="title" textTransformation="uppercase">Beacon</Text> */}
+                </Div>
+                <Div bg="#444" w="1px" h="1.5rem" d="flex" m={{ x: "0.5rem" }} rounded="circle" />
+                <Div m={{ r: "0.25rem" }}>
+                  <DropdownMenu 
+                    bg="transparent" 
+                    position="start" 
+                    h="2.25rem"
+                    text="Workspaces"
+                    isLoading={getWorkspacesResult?.loading}
+                    menuOffsetY="0.75rem"
+                    onClick={handleWorkspaceSelection}
+                    // prefix={
+                    //   <Icon name="Bulk" size="18px" color="grey200" m={{ r: "0.5rem" }} />
+                    // }
+                  >
+                    {getWorkspaces?.workspaces?.map((workspace, index) => (
+                      <DropdownItem key={index} href={'/workspace/' + workspace.shortName}>{workspace.name}</DropdownItem>
+                    ))}
+                  </DropdownMenu>
+                </Div>
+                {/* <HeaderLink 
+                  to="/taskboard" 
+                  m={{ r: "0.25rem"}}
+                  // suffix={<Icon name="DownArrow" size="18px" color="#ccc" />}
+                  // prefix={<Icon name="HomeSolid" size="18px" color="#ccc" m={{ r: "0.5rem" }} />}
+                >
+                  Taskboards
+                </HeaderLink> */}
+                <HeaderLink
+                  to="/your-work"
+                  m={{ r: "0.25rem"}}
+                  // prefix={<Icon name="FolderSolid" size="16px" color="#ccc" m={{ r: "0.5rem" }} />}
+                >
+                  Your work
                 </HeaderLink>
-                <HeaderLink to="/browse/workareas" m={{ r: "0.5rem"}}>
-                  Work areas
-                </HeaderLink>
-                <HeaderLink to="/browse/tasks" m={{ r: "0.5rem"}}>
-                  Tasks
+                <HeaderLink
+                  to="/browse/people"
+                  m={{ r: "0.25rem"}}
+                  // prefix={<Icon name="FolderSolid" size="18px" color="#ccc" m={{ r: "0.5rem" }} />}
+                >
+                  People
                 </HeaderLink>
               </Div>
             )}
@@ -92,18 +167,20 @@ const Header = ({ data, ...restProps }) => {
             align="center"
             justify="center"
             p={{ y: "0.75rem" }}
-            m={{ x: "auto" }}
+            m={{ x: "auto", l: "calc(-60% + -.4rem)" }}
             bg=""
           >
-            <Link to="/">
-              <Image
-                src={logo}
-                alt="atomize design system logo"
-                h="32px"
-                w="auto"
-                align="center"
-              />
-            </Link>
+            {!isLoggedIn && (
+              <Link to="/">
+                <Image
+                  src={logo}
+                  alt="Beacon Logo"
+                  h="36px"
+                  w="auto"
+                  align="center"
+                />
+              </Link>
+          )}
           </Div>
           <Div
             d="flex"
@@ -115,7 +192,14 @@ const Header = ({ data, ...restProps }) => {
             p={{ t: "0.75rem", b: "0.75rem" }}
             bg=""
           >
-            {/* {data?.isLoggedIn && (
+            {isLoggedIn && (
+              <HeaderLink 
+                to="/organization/settings" m={{ l: "0.5rem" }}
+              >
+                <Icon name="SettingsSolid" size="18px" color="grey100" />
+              </HeaderLink>
+            )}
+            {/* {isLoggedIn && (
               <Button
                 h="2rem"
                 bg="dark"
@@ -136,12 +220,14 @@ const Header = ({ data, ...restProps }) => {
                 Create
               </Button>
             )} */}
-            {data?.isLoggedIn && (
-              <HeaderLink to="/account/profile" m={{ l: "2rem" }}>
-                <Icon name="UserSolid" size="16px" color="white" />
+            {isLoggedIn && (
+              <HeaderLink 
+                to="/account/profile" m={{ l: "0.5rem" }}
+              >
+                <Icon name="UserSolid" size="18px" color="grey100" />
               </HeaderLink>
             )}
-            {/* {!data?.isLoggedIn && (
+            {/* {!isLoggedIn && (
               <Link to="/account/login">
                 <Button
                   h="2rem" 
@@ -155,25 +241,27 @@ const Header = ({ data, ...restProps }) => {
                 </Button>
               </Link> 
             )} */}
-            {data?.isLoggedIn && (
-              <HeaderLink to="/account/bookmarks" m={{ l: "2rem" }}>
-              <Icon name="BookmarkSolid" size="16px" color="white" />
+            {isLoggedIn && (
+              <HeaderLink to="/account/bookmarks" m={{ l: "0.5rem" }}>
+                <Icon name="BookmarkSolid" size="18px" color="grey100" />
               </HeaderLink>
             )}
-            {data?.isLoggedIn && (
+            {isLoggedIn && (
               <Button
-                h="1.75rem" 
-                w="1.75rem"
+                h="2.25rem" 
+                w="2.25rem"
                 bg="dark"
                 rounded="circle"
-                m={{ l: "2rem" }}
+                m={{ l: "0.5rem" }}
                 p="none"
               >
                 <Text
                   textWeight="800"
                   textAlign="center"
+                  textSize="caption"
+                  textColor="grey100"
                 >
-                  41
+                  4
                 </Text>
               </Button>
             )}
@@ -185,4 +273,7 @@ const Header = ({ data, ...restProps }) => {
 };
 
 
-export default graphql(IS_LOGGED_IN)(Header);
+export default compose(
+  graphql(ME_QUERY, { name: "getCurrentUser" }),
+  graphql(GET_WORKSPACES, { name: "getWorkspaces" })
+)(Header);

@@ -8,6 +8,7 @@ export const Footer = (props) => {
       tag="footer"
       p={{ t: { xs: "6rem", md: "4rem" }, b: { xs: "2rem", md: "2.5rem" } }}
       pos="relative"
+      // bg="orange"
     >
       <Container>
         <Div d="flex" align="center" justify="center" flexDir="column">
@@ -16,7 +17,7 @@ export const Footer = (props) => {
             textWeight="400"
             textSize="caption"
             textAlign="center"
-            m={{ b: "1rem" }}
+            m={{ y: "1rem" }}
           >
             Version: 0.0.1 - Contact QAOps
           </Text>
